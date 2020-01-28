@@ -19,6 +19,10 @@ const LikeService = {
         const { userId, vacId } = req.params;
         const like = await Like.findOneAndDelete({userId, vacId});
         res.send(like);
+    },
+    getChartLikes: async (req, res) => {
+        const chartLikes = await Like.find({}).populate('vacId');
+        res.send(chartLikes);
     }
 }
 

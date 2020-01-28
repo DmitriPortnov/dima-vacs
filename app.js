@@ -52,5 +52,5 @@ app.use('*', (req, res) => {
 });
 
 const init = () => {
-    app.listen(PORT, () => console.log("server is up" + PORT));
+    app.listen(PORT, () => console.log("server is up " + PORT));
 }

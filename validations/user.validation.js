@@ -3,8 +3,12 @@ const bcrypt = require('bcryptjs')
 
 userValidation = {
     loggedIn: (req, res, next) => {
-        req.isAuthenticated();
-        next();
+        console.log(req.isAuthenticated());
+        if (req.isAuthenticated()) {
+            return next();
+        } else {
+            throw new Error("please login");
+        }
     },
     login: (username, password, done) => {
         User.findOne({ username }, async (err, user) => {
