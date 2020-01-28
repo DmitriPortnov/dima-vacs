@@ -21,8 +21,21 @@ const LikeService = {
         res.send(like);
     },
     getChartLikes: async (req, res) => {
+        const charts = [{title: '', count: 0}];
         const chartLikes = await Like.find({}).populate('vacId');
-        res.send(chartLikes);
+        chartLikes.map((like) => {
+            let chart = charts.find((chart) => chart.title === like.vacId.title);
+            if (!!chart) {
+                chart.count++
+            } else {
+                charts.push({
+                    title: like.vacId.title,
+                    count: 1
+                });
+            }
+        })
+        charts.shift();
+        res.send(charts);
     }
 }
 
