@@ -23,6 +23,16 @@ const LikeService = {
     getChartLikes: async (req, res) => {
         const charts = [{title: '', count: 0}];
         const chartLikes = await Like.find({}).populate('vacId');
+        const chartReady = {
+            datasets: [{
+                backgroundColor: '#FFB300',
+                borderColor: '#F57C00',
+                borderWidth: 2,
+                data: [],
+                label: "vacations"
+            }],
+            labels: []
+        }
         chartLikes.map((like) => {
             let chart = charts.find((chart) => chart.title === like.vacId.title);
             if (!!chart) {
@@ -35,7 +45,11 @@ const LikeService = {
             }
         })
         charts.shift();
-        res.send(charts);
+        charts.map(({title, count}) => {
+            chartReady.datasets[0].data.push(count);
+            chartReady.labels.push(title);
+        })
+        res.send(chartReady);
     }
 }
 
